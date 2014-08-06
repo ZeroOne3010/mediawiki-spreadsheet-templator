@@ -33,7 +33,7 @@ public class MediaWikiSpreadsheetTemplator {
         final Cell[] parameterNames = sheet.getRow(0);
         final List<Map<String, String>> templates = readRows(sheet, parameterNames);
         final MediaWikiXmlDocument mediaWikiDocument = new MediaWikiXmlDocument(System.getProperty("username"));
-        final List<String> pages = convertDataToPageContents(templates);
+        final List<String> pages = convertDataToPageContents(templateName, templates);
         System.out.println("Creating " + pages.size() + " pages...");
         for (String page : pages) {
             mediaWikiDocument.addPage(page);
@@ -42,10 +42,10 @@ public class MediaWikiSpreadsheetTemplator {
         System.out.println("Done.");
     }
 
-    private List<String> convertDataToPageContents(List<Map<String, String>> templates) {
+    private List<String> convertDataToPageContents(String templateName, List<Map<String, String>> templates) {
         final List<String> results = new ArrayList<>();
         for (Map<String, String> template : templates) {
-            results.add(createTemplate("template name todo", template)); // todo
+            results.add(createTemplate(templateName, template));
         }
         return results;
     }
