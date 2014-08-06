@@ -24,8 +24,10 @@ public class MediaWikiXmlDocument {
     private static final SimpleDateFormat XML_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
     private Document document;
+    private String contributorUsername;
 
-    public MediaWikiXmlDocument() {
+    public MediaWikiXmlDocument(final String contributorUsername) {
+        this.contributorUsername = contributorUsername;
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -52,7 +54,7 @@ public class MediaWikiXmlDocument {
         final Element revisionElement = createElementWithContent("revision", null);
         revisionElement.appendChild(createElementWithContent("timestamp", createTimestamp()));
         final Element contributor = createElementWithContent("contributor", null);
-        contributor.appendChild(createElementWithContent("username", "username todo")); // TODO
+        contributor.appendChild(createElementWithContent("username", contributorUsername));
         revisionElement.appendChild(contributor);
         final Element textElement = createElementWithContent("text", pageContent);
         textElement.setAttribute("xml:space", "preserve");
@@ -88,12 +90,9 @@ public class MediaWikiXmlDocument {
         }
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         DOMSource source = new DOMSource(document);
-
-        StreamResult console = new StreamResult(System.out);
         StreamResult outputFile = new StreamResult(new File(fileName));
 
         try {
-            transformer.transform(source, console);
             transformer.transform(source, outputFile);
         } catch (TransformerException e) {
             e.printStackTrace();

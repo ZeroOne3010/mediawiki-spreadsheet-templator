@@ -16,6 +16,7 @@ import jxl.read.biff.BiffException;
 public class MediaWikiSpreadsheetTemplator {
     public static void main(String[] args) {
         MediaWikiSpreadsheetTemplator templator = new MediaWikiSpreadsheetTemplator();
+        System.out.println("Username: " + System.getProperty("username"));
         templator.generatePages(new File("/tmp/in.xls"));
     }
 
@@ -31,12 +32,14 @@ public class MediaWikiSpreadsheetTemplator {
         final String templateName = sheet.getName();
         final Cell[] parameterNames = sheet.getRow(0);
         final List<Map<String, String>> templates = readRows(sheet, parameterNames);
-        final MediaWikiXmlDocument mediaWikiDocument = new MediaWikiXmlDocument();
+        final MediaWikiXmlDocument mediaWikiDocument = new MediaWikiXmlDocument(System.getProperty("username"));
         final List<String> pages = convertDataToPageContents(templates);
+        System.out.println("Creating " + pages.size() + " pages...");
         for (String page : pages) {
             mediaWikiDocument.addPage(page);
         }
         mediaWikiDocument.writeToFile("/tmp/out.xml");
+        System.out.println("Done.");
     }
 
     private List<String> convertDataToPageContents(List<Map<String, String>> templates) {
