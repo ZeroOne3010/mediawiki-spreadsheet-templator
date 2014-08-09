@@ -14,6 +14,8 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public class MediaWikiSpreadsheetTemplator {
+    private static final String PAGENAME = "pagename";
+
     public static void main(String[] args) {
         MediaWikiSpreadsheetTemplator templator = new MediaWikiSpreadsheetTemplator();
         System.out.println("Username: " + System.getProperty("username"));
@@ -53,7 +55,7 @@ public class MediaWikiSpreadsheetTemplator {
     }
 
     private String createTitle(Map<String, String> template) {
-        String title = getIgnoreCase(template, "pagename");
+        String title = getIgnoreCase(template, PAGENAME);
         if (title == null) {
             title = getIgnoreCase(template, "name");
         }
@@ -87,6 +89,9 @@ public class MediaWikiSpreadsheetTemplator {
             sb.append("\n");
         }
         for (Entry<String, String> entry : params.entrySet()) {
+            if (entry.getKey().equalsIgnoreCase(PAGENAME)) {
+                continue;
+            }
             sb.append("|").append(entry.getKey()).append("=").append(entry.getValue()).append("\n");
         }
         sb.append("}}");
