@@ -17,7 +17,7 @@ public class MediaWikiSpreadsheetTemplator {
     public static void main(String[] args) {
         MediaWikiSpreadsheetTemplator templator = new MediaWikiSpreadsheetTemplator();
         System.out.println("Username: " + System.getProperty("username"));
-        templator.generatePages(new File("/tmp/in.xls"));
+        templator.generatePages(new File(System.getProperty("in")));
     }
 
     public void generatePages(final File file) {
@@ -38,7 +38,7 @@ public class MediaWikiSpreadsheetTemplator {
         for (String page : pages) {
             mediaWikiDocument.addPage(page);
         }
-        mediaWikiDocument.writeToFile("/tmp/out.xml");
+        mediaWikiDocument.writeToFile(System.getProperty("out"));
         System.out.println("Done.");
     }
 
