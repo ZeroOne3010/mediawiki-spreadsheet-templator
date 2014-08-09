@@ -33,21 +33,40 @@ public class MediaWikiSpreadsheetTemplator {
         final Cell[] parameterNames = sheet.getRow(0);
         final List<Map<String, String>> templates = readRows(sheet, parameterNames);
         final MediaWikiXmlDocument mediaWikiDocument = new MediaWikiXmlDocument(System.getProperty("username"));
-        final List<String> pages = convertDataToPageContents(templateName, templates);
+        final List<Page> pages = convertDataToPages(templateName, templates);
         System.out.println("Creating " + pages.size() + " pages...");
-        for (String page : pages) {
-            mediaWikiDocument.addPage(page);
+        for (Page page : pages) {
+            mediaWikiDocument.addPage(page.getTitle(), page.getContent());
         }
         mediaWikiDocument.writeToFile(System.getProperty("out"));
         System.out.println("Done.");
     }
 
-    private List<String> convertDataToPageContents(String templateName, List<Map<String, String>> templates) {
-        final List<String> results = new ArrayList<>();
+    private List<Page> convertDataToPages(String templateName, List<Map<String, String>> templates) {
+        final List<Page> results = new ArrayList<>();
         for (Map<String, String> template : templates) {
-            results.add(createTemplate(templateName, template));
+            final String title = createTitle(template);
+            final String content = createTemplate(templateName, template);
+            results.add(new Page(title, content));
         }
         return results;
+    }
+
+    private String createTitle(Map<String, String> template) {
+        String title = getIgnoreCase(template, "pagename");
+        if (title == null) {
+            title = getIgnoreCase(template, "name");
+        }
+        return title;
+    }
+
+    private String getIgnoreCase(Map<String, String> map, String key) {
+        for (String string : map.keySet()) {
+            if (key.equalsIgnoreCase(string)) {
+                return map.get(string);
+            }
+        }
+        return null;
     }
 
     private List<Map<String, String>> readRows(final Sheet sheet, final Cell[] parameterNames) {

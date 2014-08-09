@@ -46,9 +46,9 @@ public class MediaWikiXmlDocument {
         }
     }
 
-    public void addPage(final String pageContent) {
+    public void addPage(final String pageTitle, final String pageContent) {
         final Element pageElement = document.createElement("page");
-        pageElement.appendChild(createElementWithContent("title", "page title todo")); // TODO
+        pageElement.appendChild(createElementWithContent("title", pageTitle));
         pageElement.appendChild(createElementWithContent("ns", "0"));
         pageElement.appendChild(createElementWithContent("sha1", null));
         final Element revisionElement = createElementWithContent("revision", null);
