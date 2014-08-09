@@ -41,8 +41,7 @@ public class MediaWikiXmlDocument {
             rootElement.setAttribute("xml:lang", "en");
             document.appendChild(rootElement);
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new RuntimeException(e);
         }
     }
 
@@ -61,8 +60,7 @@ public class MediaWikiXmlDocument {
         try {
             textElement.setAttribute("bytes", Integer.toString(pageContent.getBytes("UTF-8").length));
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new RuntimeException(e);
         }
         revisionElement.appendChild(textElement);
         pageElement.appendChild(revisionElement);
@@ -85,8 +83,7 @@ public class MediaWikiXmlDocument {
         try {
             transformer = transformerFactory.newTransformer();
         } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new RuntimeException(e);
         }
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         DOMSource source = new DOMSource(document);
@@ -95,8 +92,7 @@ public class MediaWikiXmlDocument {
         try {
             transformer.transform(source, outputFile);
         } catch (TransformerException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new RuntimeException(e);
         }
     }
 }
