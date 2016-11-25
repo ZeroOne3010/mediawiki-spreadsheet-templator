@@ -1,4 +1,4 @@
-package zeroone3010.mediawiki_spreadsheet_templator;
+package zeroone3010.mediawiki.spreadsheettemplator;
 
 import java.io.File;
 import java.io.IOException;

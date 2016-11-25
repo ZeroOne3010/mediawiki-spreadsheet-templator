@@ -44,7 +44,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>zeroone3010.mediawiki_spreadsheet_templator.MediaWikiSpreadsheetTemplator</mainClass>
+							<mainClass>zeroone3010.mediawiki.spreadsheettemplator.MediaWikiSpreadsheetTemplator</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
