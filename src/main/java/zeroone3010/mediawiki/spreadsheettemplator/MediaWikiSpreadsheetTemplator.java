@@ -7,14 +7,18 @@ public class MediaWikiSpreadsheetTemplator {
 
     public static void main(String[] args) {
         MediaWikiSpreadsheetTemplator templator = new MediaWikiSpreadsheetTemplator();
-        
-        if(System.getProperty("username") == null || System.getProperty("in") == null || System.getProperty("out") == null) {
+
+        if (propertyIsNull("username") || propertyIsNull("in") || propertyIsNull("out")) {
           System.out.println("\nUsage:\njava -Din=\"input_file.xls\" -Dout=\"output_file.xml\" -Dusername=\"Desired wiki username\" -jar name_of_the_jar_file.jar\n");
           System.exit(1);
         }
         templator.generatePages(new File(System.getProperty("in")));
     }
-    
+
+    private static boolean propertyIsNull(final String username) {
+        return System.getProperty(username) == null;
+    }
+
     public void generatePages(final File file) {
         final ExcelToTemplateDataParser parser = new ExcelToTemplateDataParser();
         final TemplateDataCollection parsedCollection = parser.parseExcelFile(file);
